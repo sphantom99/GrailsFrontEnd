@@ -53,10 +53,9 @@ return(
       key="action"
       render={(text, record) => (
         <Space size="middle">
-            <button>View</button>
-          <a>View Employees</a>
-          <a>Add an Employee</a>
-          <a>Update</a>
+            <Button type="primary">View Employees</Button>
+          <Button type="primary">Add an Employee</Button>
+          <Button type="primary">Update</Button>
           <Button type="primary" danger>
             Delete
           </Button>
