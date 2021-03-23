@@ -1,4 +1,4 @@
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, Button } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { Layout, Menu, Breadcrumb } from 'antd';
 
@@ -53,10 +53,13 @@ return(
       key="action"
       render={(text, record) => (
         <Space size="middle">
-          <a>View {record.departmentName} Employees</a>
+            <button>View</button>
+          <a>View Employees</a>
           <a>Add an Employee</a>
           <a>Update</a>
-          <a>Delete</a>
+          <Button type="primary" danger>
+            Delete
+          </Button>
         </Space>
       )}
     />
