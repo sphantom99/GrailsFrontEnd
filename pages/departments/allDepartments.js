@@ -1,10 +1,19 @@
 import { Table, Tag, Space, Button } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { Layout, Menu, Breadcrumb } from 'antd';
+import { getAllDepartments } from '../../functions/Departments/getAllDepartments';
 
-export default function allDepartments(){
+
+export async function getServerSideProps(){
+  const allDepartments = await getAllDepartments();
+  console.log(allDepartments);
+  return allDepartments
+}
 
 
+export default function allDepartments(allDepartments){
+
+console.log(allDepartments)
 const { Column, ColumnGroup } = Table;
 const { Header, Content, Footer } = Layout;
 const data = [
@@ -34,6 +43,7 @@ const data = [
   },
 ];
 
+const dataI = allDepartments.departments
 return(
     <div>
     <Layout className="layout">
@@ -46,8 +56,8 @@ return(
   </Menu>
     </Header>
 <Content style={{ padding: '0 50px' }}>
-  <Table style={{marginLeft: "20%",marginTop: "10%"}} dataSource={data}>
-      <Column title="Departments" dataIndex="departmentName" key="departmentName" />
+  <Table style={{marginLeft: "20%",marginTop: "10%"}} dataSource={dataI} rowKey="id">
+      <Column title="Departments" dataIndex="departmentname" />
      <Column
       title="Action"
       key="action"
