@@ -2,13 +2,26 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Radio, Layout, Menu, Breadcrumb } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
-
+import { addDepartment } from '../../functions/Departments/addDepartment';
+import {useRouter} from 'next/router';
 export default function updateDepartment() {
 
-    const { Header, Content, Footer } = Layout;
-    const onfinish = (values) => {
+
+    async function onfinish(values){
         console.log(values)
+        const success = addDepartment(values.newDepartmentName)
+        
+        if(success.status == 200){
+            console.log("success")
+        } else {
+            console.log("Failure")
+        }
+        router.push(`/departments/allDepartments`)
     }
+
+
+    const { Header, Content, Footer } = Layout;
+    const router = useRouter()
   return (
     <div>
     <Layout className="layout">
@@ -51,3 +64,5 @@ export default function updateDepartment() {
     </div>
   );
 };
+
+
