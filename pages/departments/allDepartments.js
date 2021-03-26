@@ -2,8 +2,8 @@ import { Table, Tag, Space, Button } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { getAllDepartments } from '../../functions/Departments/getAllDepartments';
-
-
+import { deleteDepartment } from '../../functions/Departments/deleteDepartment'
+import { useRouter } from 'next/router'
 export async function getServerSideProps(){
   const allDepartments = await getAllDepartments();
   console.log(allDepartments);
@@ -12,8 +12,19 @@ export async function getServerSideProps(){
 
 
 export default function allDepartments(allDepartments){
+  const router = useRouter()
 
-console.log(allDepartments)
+  async function deleteDepartmentCall(departmentName){
+    console.log(departmentName)
+    if(departmentName){
+      const result = deleteDepartment(departmentName)
+      //console.log(result)
+      router.push('/departments/allDepartments')
+    }
+  }
+
+
+
 const { Column, ColumnGroup } = Table;
 const { Header, Content, Footer } = Layout;
 const data = [
@@ -66,7 +77,7 @@ return(
             <Button type="primary">View Employees</Button>
           <Button type="primary">Add an Employee</Button>
           <Button type="primary">Update</Button>
-          <Button type="primary" danger>
+          <Button type="primary" danger onClick={() => deleteDepartmentCall(record.departmentname)}>
             Delete
           </Button>
         </Space>
@@ -79,3 +90,4 @@ return(
     </div>
 )
 }
+
