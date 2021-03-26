@@ -1,13 +1,17 @@
 import { Table, Tag, Space } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { Layout, Menu, Breadcrumb } from 'antd';
+import {getAllEmployees} from '../../../functions/Departments/getEmployees'
 
-export default function allEmployeesInDepartment(){
-
+export async function getServerSideProps(context){
+    const employees = await getAllEmployees(context.params.department)
+    return employees
+}
+export default function allEmployeesInDepartment({employees}){
+    console.log(employees)
   const columns = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
-    { title: 'Age', dataIndex: 'age', key: 'age' },
-    { title: 'Address', dataIndex: 'address', key: 'address' },
+    { title: 'First Name', dataIndex: 'firstname', key: 'firstname' },
+    { title: 'Last Name', dataIndex: 'lastname', key: 'lastname' },
     {
       title: 'Action',
       dataIndex: '',
@@ -15,6 +19,8 @@ export default function allEmployeesInDepartment(){
       render: () => <a>Delete</a>,
     },
   ];
+  const dataI = employees
+  console.log(dataI)
   const data = [
     {
       key: 1,
@@ -62,12 +68,13 @@ return(
     </Header>
 <Content style={{ padding: '0 50px' }}>
 <Table
+    rowKey={(record) => {console.log(record); return(record.id)} }
     columns={columns}
     expandable={{
-      expandedRowRender: record => <p style={{ margin: 0 }}>{record.description}</p>,
-      rowExpandable: record => record.name !== 'Not Expandable',
+      expandedRowRender: record => <p style={{ margin: 0 }}>{record.dob}</p>,
+      rowExpandable: record => record.firstname !== 'Not Expandable',
     }}
-    dataSource={data}
+    dataSource={dataI}
   />
   </Content>
     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
