@@ -2,12 +2,14 @@ import { Table, Tag, Space } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import {Button, Layout, Menu, Breadcrumb } from 'antd';
 import {getAllEmployees} from '../../../functions/Departments/getEmployees'
-
+import deleteEmployee from '../../../functions/Employees/deleteEmployee';
+import {useRouter} from 'next/router'
 export async function getServerSideProps(context){
     const employees = await getAllEmployees(context.params.department)
+    employees.props.page = context.params.department
     return employees
 }
-export default function allEmployeesInDepartment({employees}){
+export default function allEmployeesInDepartment(employees){
   const columns = [
     { title: 'First Name', dataIndex: 'firstname', key: 'firstname' },
     { title: 'Last Name', dataIndex: 'lastname', key: 'lastname' },
@@ -15,46 +17,28 @@ export default function allEmployeesInDepartment({employees}){
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render: () => <span>
+      render: (record) => <span>
                           <Button style={{marginRight:"2%"}} type="primary">Update</Button>
-                          <Button type="danger">Delete</Button>
+                          <Button type="danger" onClick={()=> deleteEmployeeCall(record.id)}>Delete</Button>
                     </span>
     },
   ];
-  const dataI = employees
-  const data = [
-    {
-      key: 1,
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
-    },
-    {
-      key: 2,
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      description: 'My name is Jim Green, I am 42 years old, living in London No. 1 Lake Park.',
-    },
-    {
-      key: 3,
-      name: 'Not Expandable',
-      age: 29,
-      address: 'Jiangsu No. 1 Lake Park',
-      description: 'This not expandable',
-    },
-    {
-      key: 4,
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      description: 'My name is Joe Black, I am 32 years old, living in Sidney No. 1 Lake Park.',
-    },
-  ];
+const dataI = employees.employees
 const { Column, ColumnGroup } = Table;
 const { Header, Content, Footer } = Layout;
+const router = useRouter()
+async function deleteEmployeeCall(employeeID){
+    //console.log(employeeID)
+    
+    if(employeeID){
+        const resultValue = await deleteEmployee(employeeID)
+        if(resultValue.props.status==500){
+            console.log(resultValue.props.message)
+        }
+        router.push(`/departments/department/${employees.page}`)
+    }
 
+}
 
 return(
     <div>
