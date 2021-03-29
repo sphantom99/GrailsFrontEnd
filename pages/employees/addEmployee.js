@@ -58,7 +58,7 @@ const tailFormItemLayout = {
     const resultValue = await addEmployee(values.firstName, values.lastName, values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
     const result = resultValue 
     console.log(result)
-    //router.push('/departments/allDepartments')
+    router.push('/departments/allDepartments')
     
   }
 
