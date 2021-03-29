@@ -1,6 +1,6 @@
 import { Table, Tag, Space } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
-import { Layout, Menu, Breadcrumb } from 'antd';
+import {Button, Layout, Menu, Breadcrumb } from 'antd';
 import {getAllEmployees} from '../../../functions/Departments/getEmployees'
 
 export async function getServerSideProps(context){
@@ -8,7 +8,6 @@ export async function getServerSideProps(context){
     return employees
 }
 export default function allEmployeesInDepartment({employees}){
-    console.log(employees)
   const columns = [
     { title: 'First Name', dataIndex: 'firstname', key: 'firstname' },
     { title: 'Last Name', dataIndex: 'lastname', key: 'lastname' },
@@ -16,11 +15,13 @@ export default function allEmployeesInDepartment({employees}){
       title: 'Action',
       dataIndex: '',
       key: 'x',
-      render: () => <a>Delete</a>,
+      render: () => <span>
+                          <Button style={{marginRight:"2%"}} type="primary">Update</Button>
+                          <Button type="danger">Delete</Button>
+                    </span>
     },
   ];
   const dataI = employees
-  console.log(dataI)
   const data = [
     {
       key: 1,
@@ -68,10 +69,10 @@ return(
     </Header>
 <Content style={{ padding: '0 50px' }}>
 <Table
-    rowKey={(record) => {console.log(record); return(record.id)} }
+    rowKey={(record) => {return(record.id)} }
     columns={columns}
     expandable={{
-      expandedRowRender: record => <p style={{ margin: 0 }}>{record.dob}</p>,
+      expandedRowRender: record => <div><span style={{marginRight:"5%"}}>DOB: {record.dob.slice(0,10)}</span><span> AFM:  {record.afm}</span></div>,
       rowExpandable: record => record.firstname !== 'Not Expandable',
     }}
     dataSource={dataI}

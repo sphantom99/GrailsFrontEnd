@@ -78,7 +78,7 @@ return(
       key="action"
       render={(text, record) => (
         <Space size="middle">
-            <Button type="primary">View Employees</Button>
+            <Button type="primary" onClick={()=> router.push(`/departments/department/${record.departmentname}`)}>View Employees</Button>
           <Button type="primary">Add an Employee</Button>
           <Button type="primary" onClick={()=> updateDepartmentCall(record)}>Update</Button>
           <Button type="primary" danger onClick={() => deleteDepartmentCall(record.departmentname)}>
