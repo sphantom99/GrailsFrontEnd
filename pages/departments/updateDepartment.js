@@ -1,24 +1,48 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Radio } from 'antd';
+import { Form, Input, Button, Radio, Layout, Menu, Breadcrumb } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+import updateDepartment from '../../functions/Departments/updateDepartment';
+import {useRouter} from 'next/router'
 
-export default function updateDepartment() {
+export async function getServerSideProps(context){
+  console.log(context.query)
+  return {props: { name: context.query.name}}
+}
 
+export default function updateDepartments(context) {
+  const router = useRouter()
+  console.log(context.name)
+  async function onfinish(values){
+    console.log(values)
+    const resultValue = await updateDepartment(values.oldDepartmentName,values.newDepartmentName)
+    router.push('/departments/allDepartments')
+  }
 
-    const onfinish = (values) => {
-        console.log(values)
-    }
+  const { Header, Content, Footer } = Layout;
   return (
+    <div>
+    <Layout className="layout">
+    <Header>
+  <div className="logo" />
+  <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+    <Menu.Item key="1">nav 1</Menu.Item>
+    <Menu.Item key="2">nav 2</Menu.Item>
+    <Menu.Item key="3">nav 3</Menu.Item>
+  </Menu>
+    </Header>
+<Content style={{ padding: '0 50px' }}>
     <Form
       name="update"
       onFinish={onfinish}
+      style={{marginTop:"10%", marginLeft:"35%",maxWidth:"400px"}}
+      initialValues={{oldDepartmentName:context.name}}
     >
       <Form.Item
         label="Old Department Name"
         name="oldDepartmentName"
       >
-        <Input disabled={true} placeholder="old name"/>
+        <Input disabled={true} />
       </Form.Item>
 
       <Form.Item
@@ -35,10 +59,14 @@ export default function updateDepartment() {
       </Form.Item>
 
       <Form.Item >
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" style={{marginLeft:"40%"}}>
           Update
         </Button>
       </Form.Item>
     </Form>
+    </Content>
+    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+  </Layout>
+    </div>
   );
 };

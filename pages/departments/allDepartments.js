@@ -23,7 +23,11 @@ export default function allDepartments(allDepartments){
     }
   }
 
-
+ async function updateDepartmentCall(department){
+  if(department){
+    router.push(`/departments/updateDepartment?id=${department.id}&name=${department.departmentname}`)
+  }
+}
 
 const { Column, ColumnGroup } = Table;
 const { Header, Content, Footer } = Layout;
@@ -76,7 +80,7 @@ return(
         <Space size="middle">
             <Button type="primary">View Employees</Button>
           <Button type="primary">Add an Employee</Button>
-          <Button type="primary">Update</Button>
+          <Button type="primary" onClick={()=> updateDepartmentCall(record)}>Update</Button>
           <Button type="primary" danger onClick={() => deleteDepartmentCall(record.departmentname)}>
             Delete
           </Button>
