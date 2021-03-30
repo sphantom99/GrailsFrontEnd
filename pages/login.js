@@ -2,11 +2,19 @@ import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { Layout, Menu, Breadcrumb } from 'antd';
-
+import checkCredentials from '../functions/Login/checkCredentials';
+import {useRouter} from 'next/router'
 
 
 export default function Login(){
   const { Header, Content, Footer } = Layout;
+  const router = useRouter()
+  async function onFinish(values){
+    const isUser = await checkCredentials(values.username,values.password)
+    if(isUser){
+      router.push('/departments/allDepartments')
+    }
+  }
     return(
       <div>
         <Layout className="layout">
@@ -82,9 +90,7 @@ export default function Login(){
     </div>
   );
 };
-const onFinish = (values) => {
-  console.log('Received values of form: ', values);
-};
+
 
 /*
       <Breadcrumb style={{ margin: '16px 0' }}>
