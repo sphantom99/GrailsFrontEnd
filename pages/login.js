@@ -11,6 +11,7 @@ export default function Login(){
       <div>
         <Layout className="layout">
     <Header>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <div className="logo" />
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
         <Menu.Item key="1">nav 1</Menu.Item>
@@ -19,7 +20,7 @@ export default function Login(){
       </Menu>
     </Header>
     <Content style={{ padding: '0 50px' }}>
-      <div style={{ marginLeft: "43%", marginTop: "10%", maxWidth: "300px",textAlign: "center"}}>
+      <div style={{ display:'block',textAlign:'center', columnWidth:"1000px"}}>
         <h1>Login</h1>
         <Form
       name="normal_login"
@@ -28,6 +29,7 @@ export default function Login(){
         remember: true,
       }}
       onFinish={onFinish}
+      style={{display:'inline-block',marginLeft:'auto',marginRight:'auto',width:"300px"}}
     >
       <Form.Item
         name="username"
