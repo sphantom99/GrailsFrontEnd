@@ -4,24 +4,31 @@ import { Layout, Menu, Breadcrumb } from 'antd';
 import { getAllDepartments } from '../../functions/Departments/getAllDepartments';
 import { deleteDepartment } from '../../functions/Departments/deleteDepartment'
 import { useRouter } from 'next/router'
-export async function getServerSideProps(){
-  const allDepartments = await getAllDepartments();
-  console.log(allDepartments);
-  return allDepartments
-}
+import { useEffect } from 'react';
+import {useState } from 'react'
 
-
-export default function allDepartments(allDepartments){
+export default function allDepartments(){
   const router = useRouter()
-
+  const[allDepartments,setAllDepartments]= useState()
+  async function fetching(){
+   const deps = await getAllDepartments()
+   console.log(deps)
+   setAllDepartments(deps)
+  }
+  
+ useEffect(()=>{
+    fetching()
+  },[])
   async function deleteDepartmentCall(departmentName){
     console.log(departmentName)
     if(departmentName){
       const result = deleteDepartment(departmentName)
+      setAllDepartments(allDepartments.pop())
       //console.log(result)
-      router.push('/departments/allDepartments')
+      router.reload()
     }
   }
+ console.log(allDepartments)
 
  async function updateDepartmentCall(department){
   if(department){
@@ -57,8 +64,7 @@ const data = [
     tags: ['cool', 'teacher'],
   },
 ];
-
-const dataI = allDepartments.departments
+//const dataI = allDepartments.props.departments//null//allDepartments.departments
 return(
     <div>
     <Layout className="layout">
@@ -71,7 +77,7 @@ return(
   </Menu>
     </Header>
 <Content style={{ padding: '0 50px' }}>
-  <Table style={{marginLeft: "20%",marginTop: "10%"}} dataSource={dataI} rowKey="id">
+  <Table style={{marginLeft: "20%",marginTop: "10%"}} dataSource={allDepartments? allDepartments:null} rowKey="id">
       <Column title="Departments" dataIndex="departmentname" />
      <Column
       title="Action"

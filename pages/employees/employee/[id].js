@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Menu, Breadcrumb, DatePicker} from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
@@ -7,22 +7,51 @@ import { getAllDepartments } from '../../../functions/Departments/getAllDepartme
 import employee from '../addEmployee';
 import updateEmployee from '../../../functions/Employees/updateEmployee';
 import {useRouter} from 'next/router'
+import { useForm } from 'antd/lib/form/Form';
 export async function getServerSideProps(context){
   //console.log(context.params)
-  const employee = await getEmployee(context.params.id)
-  const departments = await getAllDepartments()
-  employee.props.deps = departments
-  if(employee){
-    return employee
-  }
+  //const employee = await getEmployee(context.params.id)
+  //const departments = await getAllDepartments()
+  //employee.props.deps = departments
+  return {props: { value: context.query.id}}
 }
 
 export default function employeePage(props){
+const [departments,setDepartments] = useState(['placeholder'])
+const [employeeData, setEmployeeData] = useState()
+const [dataDone,setDataDone] = useState(false)
+const [form] = Form.useForm()
+  async function fetching(){
+  const data = await getEmployee(props.value)
+  const deps = await getAllDepartments()
+  setDepartments(deps)
+  setEmployeeData(data)
+//  setDataDone(true)
+}
 
+useEffect(()=> {
+  fetching()
+ // console.log(departments,employeeData)
+},[])
+
+
+useEffect(()=>{
+  if(employeeData && departments){
+    console.log(employeeData)
+    form.setFieldsValue({
+      firstName: employeeData.firstname,
+      lastName: employeeData.lastname,
+      afm: employeeData.afm,
+      department: employeeData.department,
+      dob: moment(employeeData.dob) 
+    });
+  }
+},[employeeData])
 const router = useRouter()
 async function updateEmployeeCall(values){
-  //console.log(values.firstName,values.lastName,values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
-  const resultValue = await updateEmployee(props.data.id, values.firstName,values.lastName,values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
+  
+  console.log(values.firstName,values.lastName,values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
+  const resultValue = await updateEmployee(props.value, values.firstName,values.lastName,values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
   router.push(`/departments/allDepartments`)
   
 }
@@ -30,7 +59,7 @@ async function updateEmployeeCall(values){
 const { Option } = Select;
 const { Header, Content, Footer } = Layout;
 
-const departments = props.deps.props.departments
+//const departments = props.deps.props.departments
 
 const formItemLayout = {
   labelCol: {
@@ -63,8 +92,8 @@ const tailFormItemLayout = {
   },
 };
 
-console.log(props.data)
-  const [form] = Form.useForm();
+//console.log(departments,employeeData)
+ // const [form] = Form.useForm();
 
   const [autoCompleteResult, setAutoCompleteResult] = useState([]);
 
@@ -83,15 +112,16 @@ console.log(props.data)
   
     <Form
       {...formItemLayout}
-      //form={form}
+      form={form}
       name="register"
       onFinish={updateEmployeeCall}
       initialValues={{
-        firstName: props.data.firstname,
+        firstName: employeeData? employeeData.firstName : null
+        /*
         lastName: props.data.lastname,
         afm: props.data.afm,
         department: props.data.department,
-        dob: moment(props.data.dob)
+        dob: moment(props.data.dob)*/
       }}
       scrollToFirstError
       style={{maxWidth:"400px", marginLeft:"30%", marginTop:"10%"}}
@@ -107,7 +137,7 @@ console.log(props.data)
           },
         ]}
       >
-        <Input defaultValue={props.data.firstname} />
+        <Input /*defaultValue={employeeData?employeeData.firstName:null}*/ />
       </Form.Item>
 
       <Form.Item
@@ -120,7 +150,7 @@ console.log(props.data)
           },
         ]}
       >
-        <Input defaultValue={props.data.lastname}/>
+        <Input /*defaultValue={props.data.lastname}*//>
       </Form.Item>
 
       <Form.Item
@@ -133,7 +163,7 @@ console.log(props.data)
           },
         ]}
       >
-        <Input defaultValue={props.data.afm}/>
+        <Input /*defaultValue={props.data.afm}*//>
         </Form.Item>
       <Form.Item
       name="department"
@@ -144,7 +174,7 @@ console.log(props.data)
               message: 'Please Select the Department!',
           }
       ]}>
-          <Select defaultValue={props.data.department}>
+          <Select /*</Form.Item>defaultValue={props.data.department}*/>
           {departments.map((value,index) => {
                   return <Option key={value.id} value={value.id}>{value.departmentname}</Option>
               })}
@@ -154,7 +184,7 @@ console.log(props.data)
       name="dob"
       label="DOB"
       >
-          <DatePicker defaultValue={moment(props.data.dob)}/>
+          <DatePicker /*defaultValue={employeeData ? moment(employeeData.dob) : null}*/ />
       </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>

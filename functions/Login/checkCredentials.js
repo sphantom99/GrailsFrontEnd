@@ -6,7 +6,7 @@ export default async function checkCredentials(username,password){
     const resp = await fetch('http://localhost:8080/loginREST/login.json',{
         method: 'POST',
         credentials: 'include',
-        body: formData
+        body: formData,
     })
    const result = await resp.json()
    console.log(result)

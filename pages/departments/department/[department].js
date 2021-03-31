@@ -4,12 +4,32 @@ import {Button, Layout, Menu, Breadcrumb } from 'antd';
 import {getAllEmployees} from '../../../functions/Departments/getEmployees'
 import deleteEmployee from '../../../functions/Employees/deleteEmployee';
 import {useRouter} from 'next/router'
+import { useEffect, useState } from 'react';
+
+
+
 export async function getServerSideProps(context){
-    const employees = await getAllEmployees(context.params.department)
-    employees.props.page = context.params.department
-    return employees
+  console.log(context.query)
+  return {props: { name: context.query.department}}
 }
-export default function allEmployeesInDepartment(employees){
+
+
+export default function allEmployeesInDepartment(context){
+  const [employees,setEmployees] = useState()
+  async function fetching(){
+    const emps = await getAllEmployees(context.name)
+
+    setEmployees(emps)
+  }
+  useEffect(()=> {
+    fetching()
+    console.log(employees)
+  },[])
+
+ 
+//console.log(context.params)
+//console.log(context.name)
+
   const columns = [
     { title: 'First Name', dataIndex: 'firstname', key: 'firstname' },
     { title: 'Last Name', dataIndex: 'lastname', key: 'lastname' },
@@ -23,19 +43,20 @@ export default function allEmployeesInDepartment(employees){
                     </span>
     },
   ];
-const dataI = employees.employees
+//const dataI = employees.employees
 const { Column, ColumnGroup } = Table;
 const { Header, Content, Footer } = Layout;
 const router = useRouter()
+
+
+
+
 async function deleteEmployeeCall(employeeID){
-    //console.log(employeeID)
-    
+    console.log(employeeID)
     if(employeeID){
         const resultValue = await deleteEmployee(employeeID)
-        if(resultValue.props.status==500){
-            console.log(resultValue.props.message)
-        }
-        router.push(`/departments/department/${employees.page}`)
+        //setEmployees(employees.pop())
+        router.reload()
     }
 
 }
@@ -59,7 +80,7 @@ return(
       expandedRowRender: record => <div><span style={{marginRight:"5%"}}>DOB: {record.dob.slice(0,10)}</span><span> AFM:  {record.afm}</span></div>,
       rowExpandable: record => record.firstname !== 'Not Expandable',
     }}
-    dataSource={dataI}
+    dataSource={employees?employees:null}//employees.props.employees}
   />
   </Content>
     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

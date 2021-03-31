@@ -12,7 +12,7 @@ export async function getServerSideProps(context){
 
 export default function updateDepartments(context) {
   const router = useRouter()
-  console.log(context.name)
+
   async function onfinish(values){
     console.log(values)
     const resultValue = await updateDepartment(values.oldDepartmentName,values.newDepartmentName)

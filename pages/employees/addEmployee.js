@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, DatePicker, Layout, Menu, Breadcrumb } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { getAllDepartments } from '../../functions/Departments/getAllDepartments';
 import addEmployee from '../../functions/Employees/addEmployee';
 import { useRouter } from 'next/router';
 
-export async function getServerSideProps(){
-  const departments = await getAllDepartments()
-  if(departments.props.status==500){
-    console.log(departments.props.message)
-  } else {
-    return departments
-  }
-}
 
-export default function employee(departments){
+
+export default function employee(){
+  const [form] = Form.useForm()
+  const [departments,setDepartments]= useState(['placeholder'])
+  async function fetching(){
+    const deps = await getAllDepartments()
+    setDepartments(deps)
+  }
+
+  useEffect(()=>{
+    fetching()
+    
+    
+  },[])
 const { Option } = Select;
 const { Header, Content, Footer } = Layout;
 
@@ -50,7 +55,7 @@ const tailFormItemLayout = {
 };
 
 
-  const [form] = Form.useForm();
+  //const [form] = Form.useForm();
   const router = useRouter()
   async function onFinish(values){
     console.log(values)
@@ -79,7 +84,7 @@ const tailFormItemLayout = {
   
     <Form
       {...formItemLayout}
-      //form={form}
+      form={form}
       name="register"
       onFinish={onFinish}
       initialValues={{
@@ -137,7 +142,7 @@ const tailFormItemLayout = {
           }
       ]}>
           <Select>
-          {departments.departments.map((value,index) => {
+          {departments.map((value,index) => {
                   return <Option key={value.id} value={value.id}>{value.departmentname}</Option>
               })}
           </Select>
