@@ -5,6 +5,7 @@ import {getAllEmployees} from '../../../functions/Departments/getEmployees'
 import deleteEmployee from '../../../functions/Employees/deleteEmployee';
 import {useRouter} from 'next/router'
 import { useEffect, useState } from 'react';
+import MyLayout from '../../../components/MyLayout';
 
 
 
@@ -38,7 +39,7 @@ export default function allEmployeesInDepartment(context){
       dataIndex: '',
       key: 'x',
       render: (record) => <span>
-                          <Button style={{marginRight:"2%"}} type="primary">Update</Button>
+                          <Button style={{marginRight:"2%"}} type="primary" onClick={()=> router.push(`/employees/employee/${record.id}`)}>Update</Button>
                           <Button type="danger" onClick={()=> deleteEmployeeCall(record.id)}>Delete</Button>
                     </span>
     },
@@ -63,16 +64,7 @@ async function deleteEmployeeCall(employeeID){
 
 return(
     <div>
-    <Layout className="layout">
-    <Header>
-  <div className="logo" />
-  <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-    <Menu.Item key="1">nav 1</Menu.Item>
-    <Menu.Item key="2">nav 2</Menu.Item>
-    <Menu.Item key="3">nav 3</Menu.Item>
-  </Menu>
-    </Header>
-<Content style={{ padding: '0 50px' }}>
+    <MyLayout>
 <Table
     rowKey={(record) => {return(record.id)} }
     columns={columns}
@@ -82,9 +74,7 @@ return(
     }}
     dataSource={employees?employees:null}//employees.props.employees}
   />
-  </Content>
-    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-  </Layout>
+  </MyLayout>
     </div>
 )
 }

@@ -6,6 +6,12 @@ import { deleteDepartment } from '../../functions/Departments/deleteDepartment'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
 import {useState } from 'react'
+import { Link } from 'next/link'
+import MyLayout from '../../components/MyLayout';
+
+
+
+
 
 export default function allDepartments(){
   const router = useRouter()
@@ -22,10 +28,14 @@ export default function allDepartments(){
   async function deleteDepartmentCall(departmentName){
     console.log(departmentName)
     if(departmentName){
-      const result = deleteDepartment(departmentName)
-      setAllDepartments(allDepartments.pop())
+    const r = confirm("Delete Department?")
+      if(r){
+        const result = deleteDepartment(departmentName)
+      //setAllDepartments(allDepartments.pop())
       //console.log(result)
       router.reload()
+      }
+      
     }
   }
  console.log(allDepartments)
@@ -67,16 +77,7 @@ const data = [
 //const dataI = allDepartments.props.departments//null//allDepartments.departments
 return(
     <div>
-    <Layout className="layout">
-    <Header>
-  <div className="logo" />
-  <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-    <Menu.Item key="1">nav 1</Menu.Item>
-    <Menu.Item key="2">nav 2</Menu.Item>
-    <Menu.Item key="3">nav 3</Menu.Item>
-  </Menu>
-    </Header>
-<Content style={{ padding: '0 50px' }}>
+    <MyLayout>
   <Table style={{marginLeft: "20%",marginTop: "10%"}} dataSource={allDepartments? allDepartments:null} rowKey="id">
       <Column title="Departments" dataIndex="departmentname" />
      <Column
@@ -85,7 +86,7 @@ return(
       render={(text, record) => (
         <Space size="middle">
             <Button type="primary" onClick={()=> router.push(`/departments/department/${record.departmentname}`)}>View Employees</Button>
-          <Button type="primary">Add an Employee</Button>
+          <Button type="primary" onClick={()=> router.push('/employees/addEmployee')}>Add an Employee</Button>
           <Button type="primary" onClick={()=> updateDepartmentCall(record)}>Update</Button>
           <Button type="primary" danger onClick={() => deleteDepartmentCall(record.departmentname)}>
             Delete
@@ -94,9 +95,7 @@ return(
       )}
     />
   </Table>
-  </Content>
-    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-  </Layout>
+  </MyLayout>
     </div>
 )
 }

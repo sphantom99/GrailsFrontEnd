@@ -17,19 +17,9 @@ export default function Login(){
   }
     return(
       <div>
-        <Layout className="layout">
-    <Header>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <div className="logo" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-        <Menu.Item key="1">nav 1</Menu.Item>
-        <Menu.Item key="2">nav 2</Menu.Item>
-        <Menu.Item key="3">nav 3</Menu.Item>
-      </Menu>
-    </Header>
-    <Content style={{ padding: '0 50px' }}>
+        
       <div style={{ display:'block',textAlign:'center', columnWidth:"1000px"}}>
-        <h1>Login</h1>
+        
         <Form
       name="normal_login"
       className="login-form"
@@ -37,8 +27,9 @@ export default function Login(){
         remember: true,
       }}
       onFinish={onFinish}
-      style={{display:'inline-block',marginLeft:'auto',marginRight:'auto',width:"300px"}}
+      style={{display:'inline-block',marginLeft:'auto',marginRight:'auto',width:"300px",marginTop:'10%'}}
     >
+      <h1>Login</h1>
       <Form.Item
         name="username"
         rules={[
@@ -84,9 +75,6 @@ export default function Login(){
       </Form.Item>
     </Form>
     </div>
-    </Content>
-    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-  </Layout>
     </div>
   );
 };

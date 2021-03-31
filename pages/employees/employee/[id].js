@@ -8,6 +8,7 @@ import employee from '../addEmployee';
 import updateEmployee from '../../../functions/Employees/updateEmployee';
 import {useRouter} from 'next/router'
 import { useForm } from 'antd/lib/form/Form';
+import MyLayout from '../../../components/MyLayout';
 export async function getServerSideProps(context){
   //console.log(context.params)
   //const employee = await getEmployee(context.params.id)
@@ -99,16 +100,7 @@ const tailFormItemLayout = {
 
   return (
     <div>
-    <Layout className="layout">
-    <Header>
-  <div className="logo" />
-  <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-    <Menu.Item key="1">nav 1</Menu.Item>
-    <Menu.Item key="2">nav 2</Menu.Item>
-    <Menu.Item key="3">nav 3</Menu.Item>
-  </Menu>
-    </Header>
-<Content style={{ padding: '0 50px' }}>
+    <MyLayout>
   
     <Form
       {...formItemLayout}
@@ -193,9 +185,7 @@ const tailFormItemLayout = {
         </Button>
       </Form.Item>
    </Form>
-   </Content>
-    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-  </Layout>
+   </MyLayout>
     </div>
   );
 };
