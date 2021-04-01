@@ -11,14 +11,16 @@ import MyLayout from '../../../components/MyLayout';
 
 export async function getServerSideProps(context){
   console.log(context.query)
-  return {props: { name: context.query.department}}
+  return {props: { name: context.query.department,
+                    id : context.query.id}}
 }
 
 
 export default function allEmployeesInDepartment(context){
   const [employees,setEmployees] = useState()
   async function fetching(){
-    const emps = await getAllEmployees(context.name)
+    //console.log(context)
+    const emps = await getAllEmployees(context.id)
 
     setEmployees(emps)
   }

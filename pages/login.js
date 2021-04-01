@@ -16,7 +16,7 @@ export default function Login(){
     }
   }
     return(
-      <div>
+      <div style={{backgroundImage: ""}}>
         
       <div style={{ display:'block',textAlign:'center', columnWidth:"1000px"}}>
         

@@ -4,18 +4,21 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import updateDepartment from '../../functions/Departments/updateDepartment';
 import {useRouter} from 'next/router'
+import MyLayout from '../../components/MyLayout';
 
 export async function getServerSideProps(context){
   console.log(context.query)
-  return {props: { name: context.query.name}}
+  return {props: { id: context.query.id,
+                    name: context.query.name}}
 }
 
 export default function updateDepartments(context) {
   const router = useRouter()
 
   async function onfinish(values){
-    console.log(values)
-    const resultValue = await updateDepartment(values.oldDepartmentName,values.newDepartmentName)
+    //console.log(values)
+    //console.log(context)
+    const resultValue = await updateDepartment(context.id,values.newDepartmentName)
     router.push('/departments/allDepartments')
   }
 

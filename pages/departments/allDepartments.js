@@ -25,12 +25,13 @@ export default function allDepartments(){
  useEffect(()=>{
     fetching()
   },[])
-  async function deleteDepartmentCall(departmentName){
-    console.log(departmentName)
-    if(departmentName){
+  async function deleteDepartmentCall(departmentID){
+    console.log(departmentID)
+    if(departmentID){
     const r = confirm("Delete Department?")
       if(r){
-        const result = deleteDepartment(departmentName)
+        const result = deleteDepartment(departmentID)
+        console.log(result)
       //setAllDepartments(allDepartments.pop())
       //console.log(result)
       router.reload()
@@ -85,10 +86,10 @@ return(
       key="action"
       render={(text, record) => (
         <Space size="middle">
-            <Button type="primary" onClick={()=> router.push(`/departments/department/${record.departmentname}`)}>View Employees</Button>
+            <Button type="primary" onClick={()=> router.push(`/departments/department/${record.departmentname}?id=${record.id}`)}>View Employees</Button>
           <Button type="primary" onClick={()=> router.push('/employees/addEmployee')}>Add an Employee</Button>
           <Button type="primary" onClick={()=> updateDepartmentCall(record)}>Update</Button>
-          <Button type="primary" danger onClick={() => deleteDepartmentCall(record.departmentname)}>
+          <Button type="primary" danger onClick={() => deleteDepartmentCall(record.id)}>
             Delete
           </Button>
         </Space>
