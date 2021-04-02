@@ -11,9 +11,10 @@ const [name,setName] = useState('Someone')
 const router = useRouter()
  async function fetchName(){
    const success = await getName()
-   console.log(success)
    if(success){
     setName(success)
+   } else {
+     console.log('failure')
    }
 }
 useState(()=> {
