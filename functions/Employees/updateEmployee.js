@@ -19,21 +19,13 @@ export default async function updateEmployee(employeeIDVar,firstNameVar, lastNam
             'Accept':'application/json',
             'Conent-type':'application/json'
         },
-        body: formData /*JSON.stringify({
-            employeeID: employeeIDVar,
-            firstName: firstNameVar,
-            lastName: lastNameVar,
-            afm: afmVar,
-            dobYear: dobYearVar,
-            dobMonth: dobMonthVar,
-            dobDay: dobDayVar,
-            department: departmentVar
-        })*/
+        body: formData,
     })
-    const result = await resp.json()
-    if(result.status==200){
-        return result
-    } else {
-        console.log(result.message)
+    const response = await resp.json()
+    if(response.status==200){
+        return true
+    } else if(response.status == 500){
+        console.log(response.message)
+        return false
     }
 }

@@ -43,7 +43,7 @@ useState(()=> {
     <Content style={{ padding: '0 50px' }}>
     {children}
     </Content>
-    <Footer style={{ textAlign: 'center',position:'absolute',bottom:"0",width:"100%"}}>Ant Design ©2018 Created by Ant UED</Footer>
+    <Footer style={{ textAlign: 'center',position:'absolute',bottom:"0",width:"100%",zIndex:'-1'}}>Ant Design ©2018 Created by Ant UED</Footer>
   </Layout>
 );
 }

@@ -13,8 +13,11 @@ export default async function addEmployee(firstName,lastName,AFM,dobYear,dobMont
         credentials: 'include',
         body: formData
     })
-    const resp = await res.json()
-    if(resp.status==200){
-        return {props: {resp}}
+    const response = await res.json()
+    if(response.status==200){
+        return true
+    } else if (response.status==500){
+        console.log(response.message)
+        return false
     }
 }

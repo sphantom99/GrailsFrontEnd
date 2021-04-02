@@ -1,11 +1,11 @@
-import { Table, Tag, Space, Button } from 'antd';
+import { Table, Space, Button } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { getAllDepartments } from '../../functions/Departments/getAllDepartments';
 import { deleteDepartment } from '../../functions/Departments/deleteDepartment'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
-import {useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'next/link'
 import MyLayout from '../../components/MyLayout';
 
@@ -13,91 +13,76 @@ import MyLayout from '../../components/MyLayout';
 
 
 
-export default function allDepartments(){
+export default function allDepartments() {
   const router = useRouter()
-  const[allDepartments,setAllDepartments]= useState()
-  async function fetching(){
-   const deps = await getAllDepartments()
-   console.log(deps)
-   setAllDepartments(deps)
-  }
-  
- useEffect(()=>{
-    fetching()
-  },[])
-  async function deleteDepartmentCall(departmentID){
-    console.log(departmentID)
-    if(departmentID){
-    const r = confirm("Delete Department?")
-      if(r){
-        const result = deleteDepartment(departmentID)
-        console.log(result)
-      //setAllDepartments(allDepartments.pop())
-      //console.log(result)
-      router.reload()
-      }
-      
+  const [allDepartments, setAllDepartments] = useState()
+  const { Column, ColumnGroup } = Table;
+
+
+  async function fetching() {
+    const deps = await getAllDepartments()
+    if(deps){
+      setAllDepartments(deps)
+    } else {
+      console.log('failure')
+      //router.push(error page)
     }
   }
- console.log(allDepartments)
 
- async function updateDepartmentCall(department){
-  if(department){
-    router.push(`/departments/updateDepartment?id=${department.id}&name=${department.departmentname}`)
+
+  useEffect(() => {
+    fetching()
+  }, [])
+
+
+  async function deleteDepartmentCall(departmentID) {
+    if (departmentID) {
+      const confirmed = confirm("Delete Department?")
+      if (confirmed) {
+        const success = deleteDepartment(departmentID)
+        if(success){
+        router.reload()
+      } else {
+        console.log('failure')
+        //push to error page
+      }
+      }
+
+    }
   }
-}
 
-const { Column, ColumnGroup } = Table;
-const { Header, Content, Footer } = Layout;
-const data = [
-  {
-    key: '1',
-    departmentName: 'Marketing',
-    lastName: 'Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    departmentName: 'Sales',
-    lastName: 'Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    departmentName: 'HR',
-    lastName: 'Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-//const dataI = allDepartments.props.departments//null//allDepartments.departments
-return(
+
+  async function updateDepartmentCall(department) {
+    if (department) {
+      router.push(`/departments/updateDepartment?id=${department.id}&name=${department.departmentname}`)
+    }
+  }
+
+
+
+
+  return (
     <div>
-    <MyLayout>
-  <Table style={{marginLeft: "20%",marginTop: "10%"}} dataSource={allDepartments? allDepartments:null} rowKey="id">
-      <Column title="Departments" dataIndex="departmentname" />
-     <Column
-      title="Action"
-      key="action"
-      render={(text, record) => (
-        <Space size="middle">
-            <Button type="primary" onClick={()=> router.push(`/departments/department/${record.departmentname}?id=${record.id}`)}>View Employees</Button>
-          <Button type="primary" onClick={()=> router.push('/employees/addEmployee')}>Add an Employee</Button>
-          <Button type="primary" onClick={()=> updateDepartmentCall(record)}>Update</Button>
-          <Button type="primary" danger onClick={() => deleteDepartmentCall(record.id)}>
-            Delete
+      <MyLayout>
+        <Table style={{ marginLeft: "20%", marginTop: "10%" }} dataSource={allDepartments ? allDepartments : null} rowKey="id">
+          <Column title="Departments" dataIndex="departmentname" />
+          <Column
+            title="Action"
+            key="action"
+            render={(text, record) => (
+              <Space size="middle">
+                <Button type="primary" onClick={() => router.push(`/departments/department/${record.departmentname}?id=${record.id}`)}>View Employees</Button>
+                <Button type="primary" onClick={() => router.push('/employees/addEmployee')}>Add an Employee</Button>
+                <Button type="primary" onClick={() => updateDepartmentCall(record)}>Update</Button>
+                <Button type="primary" danger onClick={() => deleteDepartmentCall(record.id)}>
+                  Delete
           </Button>
-        </Space>
-      )}
-    />
-  </Table>
-  </MyLayout>
+              </Space>
+            )}
+          />
+        </Table>
+      </MyLayout>
     </div>
-)
+  )
 }
 

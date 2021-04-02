@@ -7,152 +7,149 @@ import { useRouter } from 'next/router';
 import MyLayout from '../../components/MyLayout';
 
 
+export default function employee() {
 
-export default function employee(){
+
   const [form] = Form.useForm()
-  const [departments,setDepartments]= useState(['placeholder'])
-  async function fetching(){
+  const [departments, setDepartments] = useState(['placeholder'])
+  const { Option } = Select;
+  const router = useRouter()
+  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
+  const formItemLayout = {
+    labelCol: {
+      xs: {
+        span: 24,
+      },
+      sm: {
+        span: 8,
+      },
+    },
+    wrapperCol: {
+      xs: {
+        span: 24,
+      },
+      sm: {
+        span: 16,
+      },
+    },
+  };
+  const tailFormItemLayout = {
+    wrapperCol: {
+      xs: {
+        span: 24,
+        offset: 0,
+      },
+      sm: {
+        span: 16,
+        offset: 8,
+      },
+    },
+  };
+
+  async function fetching() {
     const deps = await getAllDepartments()
     setDepartments(deps)
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     fetching()
-    
-    
-  },[])
-const { Option } = Select;
-const { Header, Content, Footer } = Layout;
-
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
+  }, [])
 
 
-  //const [form] = Form.useForm();
-  const router = useRouter()
-  async function onFinish(values){
-    console.log(values)
-    console.log(values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'))
-    const resultValue = await addEmployee(values.firstName, values.lastName, values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
-    const result = resultValue 
-    console.log(result)
+  async function onFinish(values) {
+    const success = await addEmployee(values.firstName, values.lastName, values.afm, values.dob.format('YYYY'), values.dob.format('MM'), values.dob.format('DD'), values.department)
+    if(success){
     router.push('/departments/allDepartments')
-    
+    } else {
+      console.log('failure')
+      //router.push(error page)
+    }
+
   }
 
-
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
   return (
     <div>
-    <MyLayout>
-  
-    <Form
-      {...formItemLayout}
-      form={form}
-      name="register"
-      onFinish={onFinish}
-      initialValues={{
+      <MyLayout>
 
-      }}
-      scrollToFirstError
-      style={{maxWidth:"400px", marginLeft:"30%", marginTop:"10%"}}
-    >
-      <h1 style={{marginLeft:"40%"}}>New Employee</h1>
-      <Form.Item
-        name="firstName"
-        label="First Name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input the Employees First Name!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="register"
+          onFinish={onFinish}
+          initialValues={{
 
-      <Form.Item
-        name="lastName"
-        label="Last Name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input the Employees Last Name!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+          }}
+          scrollToFirstError
+          style={{ maxWidth: "400px", marginLeft: "30%", marginTop: "10%" }}
+        >
+          <h1 style={{ marginLeft: "40%" }}>New Employee</h1>
+          <Form.Item
+            name="firstName"
+            label="First Name"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Employees First Name!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-      <Form.Item
-        name="afm"
-        label="AFM"
-        rules={[
-          {
-            required: true,
-            message: 'Please input the Employees AFM!',
-          },
-        ]}
-      >
-        <Input />
-        </Form.Item>
-      <Form.Item
-      name="department"
-      label="Department"
-      rules={[
-          {
-              required: true,
-              message: 'Please Select the Department!',
-          }
-      ]}>
-          <Select>
-          {departments.map((value,index) => {
-                  return <Option key={value.id} value={value.id}>{value.departmentname}</Option>
+          <Form.Item
+            name="lastName"
+            label="Last Name"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Employees Last Name!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            name="afm"
+            label="AFM"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Employees AFM!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="department"
+            label="Department"
+            rules={[
+              {
+                required: true,
+                message: 'Please Select the Department!',
+              }
+            ]}>
+            <Select>
+              {departments.map((value, index) => {
+                return <Option key={value.id} value={value.id}>{value.departmentname}</Option>
               })}
-          </Select>
-      </Form.Item>
-      <Form.Item
-      name="dob"
-      label="DOB"
-      >
-          <DatePicker/>
-      </Form.Item>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="dob"
+            label="DOB"
+          >
+            <DatePicker />
+          </Form.Item>
 
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit" style={{marginLeft:"35%"}}>
-          ADD
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" htmlType="submit" style={{ marginLeft: "35%" }}>
+              ADD
         </Button>
-      </Form.Item>
-   </Form>
-   </MyLayout>
+          </Form.Item>
+        </Form>
+      </MyLayout>
     </div>
   );
 }
