@@ -11,8 +11,6 @@ export default async function updateEmployee(employeeIDVar, firstNameVar, lastNa
         formData.append('dobMonth', dobMonthVar)
         formData.append('dobDay', dobDayVar)
         formData.append('department', departmentVar)
-        console.log(employeeIDVar)
-        console.log('^^^^^^^')
         const resp = await fetch(`http://localhost:8080/EmployeesREST/updateEmployee.json`, {
             method: 'POST',
             credentials: 'include',
