@@ -1,4 +1,4 @@
-export async function getAllEmployees(department) {
+export default async function getAllEmployees(department) {
     try {
         const formData = new FormData();
         formData.append('departmentID', department)

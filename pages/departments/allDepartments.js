@@ -71,7 +71,7 @@ export default function allDepartments() {
             key="action"
             render={(text, record) => (
               <Space size="middle">
-                <Button type="primary" onClick={() => router.push(`/departments/department/${record.departmentname}?id=${record.id}`)}>View Employees</Button>
+                <Button type="primary" onClick={() => router.push(`/departments/${record.departmentname}?id=${record.id}`)}>View Employees</Button>
                 <Button type="primary" onClick={() => router.push('/employees/addEmployee')}>Add an Employee</Button>
                 <Button type="primary" onClick={() => updateDepartmentCall(record)}>Update</Button>
                 <Button type="primary" danger onClick={() => deleteDepartmentCall(record.id)}>

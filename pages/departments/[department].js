@@ -1,11 +1,13 @@
 import { Table, Tag, Space } from 'antd';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
-import { Button, Layout, Menu, Breadcrumb } from 'antd';
-import { getAllEmployees } from '../../../functions/Departments/getEmployees'
-import deleteEmployee from '../../../functions/Employees/deleteEmployee';
+import { Button } from 'antd';
+
+import deleteEmployee from '../../functions/Employees/deleteEmployee';
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react';
-import MyLayout from '../../../components/MyLayout';
+import MyLayout from '../../components/MyLayout';
+import getAllEmployees from '../../functions/Departments/getEmployees';
+
 
 
 

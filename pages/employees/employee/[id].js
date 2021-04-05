@@ -70,8 +70,11 @@ export default function employeePage(props) {
       setEmployeeData(data)
       setDepartments(deps)
     } else {
-      console.log('failure')
-      //router.push(error page)
+      //console.log('failure')
+      const r = confirm("The employee you have selected does not exist, do you want to add them?")
+      if(r){
+        router.push('/employees/addEmployee')
+      }
     }
 
   }
@@ -120,7 +123,7 @@ export default function employeePage(props) {
           scrollToFirstError
           style={{ maxWidth: "400px", marginLeft: "30%", marginTop: "10%" }}
         >
-          <h1 style={{ marginLeft: "40%" }}>New Employee</h1>
+          <h1 style={{ marginLeft: "40%" }}>{employeeData? <span>{employeeData.firstname +" "+ employeeData.lastname}</span> : "Employee"}</h1>
           <Form.Item
             name="firstName"
             label="First Name"
@@ -169,8 +172,8 @@ export default function employeePage(props) {
               }
             ]}>
             <Select /*</Form.Item>defaultValue={props.data.department}*/>
-              {departments.map((value, index) => {
-                return <Option key={value.id} value={value.id}>{value.departmentname}</Option>
+              {departments?.map((value, index) => {
+                return <Option key={value?.id} value={value.id}>{value.departmentname}</Option>
               })}
             </Select>
           </Form.Item>
