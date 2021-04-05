@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Layout, Menu, Breadcrumb, DatePicker } from 'antd';
 import moment from 'moment';
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
-import getEmployee from '../../../functions/Employees/getEmployee';
-import { getAllDepartments } from '../../../functions/Departments/getAllDepartments';
-import updateEmployee from '../../../functions/Employees/updateEmployee';
+import getEmployee from '../../functions/Employees/getEmployee';
+import { getAllDepartments } from '../../functions/Departments/getAllDepartments';
+import updateEmployee from '../../functions/Employees/updateEmployee';
 import { useRouter } from 'next/router'
 import { useForm } from 'antd/lib/form/Form';
-import MyLayout from '../../../components/MyLayout';
-
+import MyLayout from '../../components/MyLayout';
+  
 
 export async function getServerSideProps(context) {
   return { props: { value: context.query.id } }

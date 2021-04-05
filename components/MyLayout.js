@@ -32,7 +32,7 @@ export default function MyLayout({ children }) {
     <Layout className="layout">
       <Header>
         <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+        <Menu theme="dark" mode="horizontal">
           <Menu.Item key="1" ><Link href='/departments/allDepartments'>Departments</Link></Menu.Item>
           <Menu.Item key="2" ><Link href='/employees/addEmployee'>Add An Employee</Link></Menu.Item>
           <Menu.Item key="3" ><Link href='/departments/addDepartment'>Add A Department</Link></Menu.Item>
