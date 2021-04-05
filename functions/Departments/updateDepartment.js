@@ -4,7 +4,7 @@ export default async function updateDepartment(departmentID, newDepartmentName) 
         formData.append('departmentID', departmentID)
         formData.append('newName', newDepartmentName)
         const res = await fetch(`http://localhost:8080/DepartmentsREST/updateDepartment.json`, {
-            method: 'POST',
+            method: 'PUT',
             credentials: 'include',
             body: formData
         });

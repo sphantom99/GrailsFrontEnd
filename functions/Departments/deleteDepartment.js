@@ -3,7 +3,7 @@ export async function deleteDepartment(departmentID) {
         const formData = new FormData()
         formData.append('departmentID', departmentID)
         const res = await fetch(`http://localhost:8080/DepartmentsREST/deleteDepartment.json`, {
-            method: 'POST',
+            method: 'DELETE',
             credentials: 'include',
             body: formData
         });
