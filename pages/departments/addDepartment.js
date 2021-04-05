@@ -12,15 +12,18 @@ export default function updateDepartment() {
 
   async function onfinish(values) {
     console.log(values)
-    const success = addDepartment(values.newDepartmentName)
+    const resp = addDepartment(values.newDepartmentName)
 
-    if (success) {
+    if (resp.status == 200) {
       console.log("success")
       router.push(`/departments/allDepartments`)
-    } else {
-      console.log("Failure")
-      //router.push(error page)
-    }
+  } else if (resp.status == 500) {
+      console.log(resp.message)
+      //router.push("/departments/allDepartments")
+  } else if (resp.status == 401){
+    router.push("/login")
+  }
+    
    
   }
 

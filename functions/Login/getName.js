@@ -10,6 +10,9 @@ export default async function getName() {
         } else if (response.status == 500) {
             console.log(response.message)
             return false
+        } else if (response.status==401){
+            console.log(response.message)
+            return false
         }
     } catch (error) {
         console.error(error);

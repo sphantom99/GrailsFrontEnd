@@ -15,7 +15,7 @@ export default function MyLayout({ children }) {
     if (success) {
       setName(success)
     } else {
-      console.log('failure')
+      router.push("/login")
     }
   }
   useEffect(() => {

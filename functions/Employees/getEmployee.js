@@ -3,6 +3,7 @@ export default async function getEmployee(employeeID) {
         const formData = new FormData()
         formData.append("ID", employeeID)
         const resp = await fetch(`http://localhost:8080/EmployeesREST/getEmployee.json`, {
+            method: 'POST',
             credentials: 'include',
             body: formData
         })

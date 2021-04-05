@@ -70,7 +70,7 @@ export default function employeePage(props) {
       setEmployeeData(data)
       setDepartments(deps)
     } else {
-      //console.log('failure')
+      console.log('failure')
       const r = confirm("The employee you have selected does not exist, do you want to add them?")
       if(r){
         router.push('/employees/addEmployee')

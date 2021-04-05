@@ -33,7 +33,7 @@ export default function allEmployeesInDepartment(context) {
       dataIndex: '',
       key: 'x',
       render: (record) => <span>
-        <Button style={{ marginRight: "2%" }} type="primary" onClick={() => router.push(`/employees/employee/${record.id}`)}>Update</Button>
+        <Button style={{ marginRight: "2%" }} type="primary" onClick={() => router.push(`/employees/${record.id}`)}>Update</Button>
         <Button type="danger" onClick={() => deleteEmployeeCall(record.id)}>Delete</Button>
       </span>
     },
@@ -58,13 +58,17 @@ export default function allEmployeesInDepartment(context) {
 
   async function deleteEmployeeCall(employeeID) {
     if (employeeID) {
-      const success = await deleteEmployee(employeeID)
-      if (success) {
-        router.reload()
-      } else {
-        console.log('failure')
-        //router.push(error page)
+      const r = confirm("Do you really want to delete this employee ?")
+      if (r) {
+        const success = await deleteEmployee(employeeID)
+        if (success) {
+          router.reload()
+        } else {
+          console.log('failure')
+          //router.push(error page)
+        }
       }
+
     }
   }
 
